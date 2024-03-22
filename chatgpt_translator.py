@@ -6,11 +6,13 @@ with open("./credentials.json","r") as f:
 openai.api_key = token
 
 
+
 def translate (text:str,language:str, gender:str)->str:
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-3.5-turbo-1106",
         messages=[
-            {"role": "user", "content": "Writer is {gender}. Translate to {language}: {text}".format(gender = gender, language = language, text=text)}
+            {"role": "system", "content": "Chat translator to {language}".format(language = language)},
+            {"role": "user", "content": "Translate: {text}".format(gender = gender, language = language, text=text)}
         ]
     )
     return (response['choices'][0]['message']['content'].rstrip("."))
